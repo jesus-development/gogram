@@ -966,6 +966,11 @@ func (c *Client) GetHistory(PeerID interface{}, opts ...*HistoryOption) ([]NewMe
 		for _, msg := range req.Messages {
 			messages = append(messages, *packMessage(c, msg))
 		}
+	case *MessagesChannelMessages:
+		c.Cache.UpdatePeersToCache(req.Users, req.Chats)
+		for _, msg := range req.Messages {
+			messages = append(messages, *packMessage(c, msg))
+		}
 	}
 
 	return messages, nil
